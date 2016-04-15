@@ -6,7 +6,7 @@ float heightH = 70; // Camera height
 int[][] tiles;
 boolean [][] gotbonus;
 color[] palette; // tile colours
-float xpos, ypos; // x and y positions
+float xp, yp; // x and y positions
 int score;
 int lives;
 boolean gameover = false;
@@ -62,5 +62,53 @@ void draw
   camera (0, ypos, heightH, 0, (ypos + 400), 0, 0, -1,0);
   ambientLight (210, 220, 200);
   directionalLight (204, 204, 204, -.7, 1, 1.2);
-  lightFalloff(1, 0, 0); 
+  lightFalloff (1, 0, 0); 
+  
+  if (showFlash)
+  {
+    float flashamt = float(flashCounter) / float(ForFrames);
+    background (lerpColor(color(255, 50, 0), color(0), flashamt));
+    flashCounter ++;
+    if (flashCounter == 0)
+    {
+      showFlash = false;
+    }
+  }
+  
+  else
+  {
+    background(0);
+  }
+  
+  // Ball position
+  float xx = 60 - mouseX / 4.25; //left-right
+  float yy = ypos + 60 + ((512 - mouseY) / 5); //front-back
+  float zz = BallR / 2 + (BounceH * (float)Math.abs(Math.sin(frameCount/BounceS))); // up-down
+  
+  
+  // Draw tiles
+  
+  for (int col = 0; col < 6; col ++)
+  {
+    int x =-- 60 + (20 * col);
+    for (int row = 0; row < 1000; row ++)
+    {
+      int y = 20 * row;
+      if ( y > ypos && y < ypos + 500 && tiles[row][col] > 0)
+      {
+        fill (palette[tiles][row][col]], 255 - ((y -ypos) / 2));
+        rect (x, y, 20, 20);
+      }
+    }
+  }
+  
+  fill (127);
+  
+  // Draw ball and shadow
+  
+  if (!gameover)
+  {
+    // Ball shadow
+    ellipse(xx, yy, 20, 20);
+    
 }
