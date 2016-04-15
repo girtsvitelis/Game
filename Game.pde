@@ -126,11 +126,11 @@ void draw
   translate180,ypos + 400 , 0);
   rotateZ(PI);
   rotateX(PI * 3 / 2.2);
-  text("SCORE", 0, -20);
+  text("SCORE", 0, - 20);
   text(score+ "",0 , 0);
   if (combo > 1)
   {
-    text((int)combo+ "X COMBO", 0, -40);
+    text((int)combo+ "X COMBO", 0, - 40);
   }
   popMatrix();
   
@@ -139,6 +139,26 @@ void draw
   pushMatrix();
   translate(-120, ypos + 400, 0);
   rotateZ(PI);
+  rotateX((PI * 3 / 2.2);
+  text("LIVES", 0, - 20);
+  text(lives+"", 0, 0);
+  popMatrix();
+  
+  // Check for collisions
+  
+  if (zz <= BallR && !gameover) groundCheck(xx,yy);
+  
+  // Gameover
+  
+  if (gameover)
+  {
+    pushMatrix();
+    translate(120, ypos+400, 80);
+    rotateZ(PI);
+    rotateX((PI * 3 / 2.2));
+    text("GAME OVER", 0, 0);
+    popMatrix();
+  }
   
     
 }
