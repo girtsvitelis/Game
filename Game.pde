@@ -119,5 +119,26 @@ void draw
     sphere(BallR);
     popMatrix();
   }
+  
+  // Draw score and combo
+  
+  pushMatrix();
+  translate180,ypos + 400 , 0);
+  rotateZ(PI);
+  rotateX(PI * 3 / 2.2);
+  text("SCORE", 0, -20);
+  text(score+ "",0 , 0);
+  if (combo > 1)
+  {
+    text((int)combo+ "X COMBO", 0, -40);
+  }
+  popMatrix();
+  
+  // Draw lives
+  
+  pushMatrix();
+  translate(-120, ypos + 400, 0);
+  rotateZ(PI);
+  
     
 }
