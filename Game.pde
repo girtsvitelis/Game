@@ -160,5 +160,39 @@ void draw
     popMatrix();
   }
   
-    
+}
+
+void groundCheck(float xx, float yy)
+{
+  // Called when ball is on ground
+  
+  if (BounceH > 0) BounceH = 70; // Reset bounce if not rolling
+  
+  // Tile position underneath
+  
+  int row = (int)(yy / 20);
+  int col = (int)((xx + 60) / 20);
+  
+  int tiletype = 0;
+  if (col < 0 || col > = 6)
+  {
+    tiletype = 0;
+  }
+  
+  else
+  {
+    tiletype = tiles[row][col];
+    if (!gotbonus[row][col]))
+    {
+      gotbonus[row][col]=true; // Don't count more than once
+      switch (tiletype)
+      {
+        case 0:
+          // Fell down a hole
+          lives--;
+          if (lives==0) gameover = true;
+          combo = 1.0;
+  
+  
+  
 }
