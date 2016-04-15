@@ -110,5 +110,14 @@ void draw
   {
     // Ball shadow
     ellipse(xx, yy, 20, 20);
+    // Draw player 
+    pushMatrix();
+    translate(xx, yy, zz);
+    rotateX(- frameCount / 20); // Ball roll
+    sphereDetail(8);
+    fill(190, 56, 78);
+    sphere(BallR);
+    popMatrix();
+  }
     
 }
