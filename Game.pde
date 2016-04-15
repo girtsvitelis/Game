@@ -20,14 +20,14 @@ void setup()
 {
   size (512, 512, P3D);
   font = loadFont("SegoeScript-Bold-48.vlw");
-  textFont(font, 30);
+  textFont(font, 10);
   reset();
   palette = new color[]
   {
     color(0), //black - avoid
     color(255), //white - normal tile
-    color(255, 255, 0), // yellow - score, adds to combo
-    color(0, 255, 255), // cyan - double bounce
+    color(0, 255, 0), // green - score, adds to combo
+    color(14, 246, 246), // blue - double bounce
     color(255, 0, 0) // red - makes ball roll on the ground
   };
 }
@@ -122,14 +122,14 @@ void draw()
     translate(xx, yy, zz);
     rotateX(- frameCount / 20); // Ball roll
     sphereDetail(8);
-    fill(190, 56, 78);
+    fill(204, 0, 0);
     sphere(BallR);
     popMatrix();
   }
   
   // Draw score and combo
   
-  textFont(font, 30);
+  textFont(font, 10);
   pushMatrix();
   translate(180,ypos + 400 , 0);
   rotateZ(PI);
@@ -160,7 +160,7 @@ void draw()
   
   if (gameover)
   {
-    textFont(font, 30);
+    textFont(font, 10);
     pushMatrix();
     translate(120, ypos+400, 80);
     rotateZ(PI);
