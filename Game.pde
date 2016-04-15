@@ -191,7 +191,39 @@ void groundCheck(float xx, float yy)
           // Fell down a hole
           lives--;
           if (lives==0) gameover = true;
-          combo = 1.0;
+          combo = 1.0; // Combo breaker
+          showFalsh = true;
+          flashCounter = ForFrames;
+          break;
+        case 1:
+          // Hit normal tile
+          score += 10;
+          combo = 1;
+          break;
+        case 2:
+          // Hit gold tile
+          score += 50 * combo;
+          tiles[row][col] = 1;
+          if (BounceH > 0) combo *= 2;
+          break;
+        case 3:
+          // Double bounce
+          BounceH = 120;
+          score += 50*combo;
+          tiles[row][col] = 1;
+          if (BounceH > 0) combo *= 2;
+          break;
+        case 4:
+          // Set to roll
+          BounceH = 0;
+          combo = 1;
+          break;
+         default;
+          break;
+      }
+    }
+  }
+}  
   
   
   
