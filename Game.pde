@@ -14,10 +14,13 @@ boolean gameover = false;
 boolean showFlash = false;
 int ForFrames = 10;
 int flashCounter;
+PFont font;
 
 void setup()
 {
   size (512, 512, P3D);
+  font = loadFont("SegoeScript-Bold-48.vlw");
+  textFont(font, 30);
   reset();
   palette = new color[]
   {
@@ -49,6 +52,7 @@ void reset()
   
   score = 0;
   lives = 5;
+  combo = 1;
   gameover = false;
   frameCount = 0;
 }
@@ -72,13 +76,12 @@ void draw()
   {
     float flashamt = float(flashCounter) / float(ForFrames);
     background (lerpColor(color(255, 50, 0), color(0), flashamt));
-    flashCounter ++;
+    flashCounter --;
     if (flashCounter == 0)
     {
       showFlash = false;
     }
   }
-  
   else
   {
     background(0);
@@ -126,6 +129,7 @@ void draw()
   
   // Draw score and combo
   
+  textFont(font, 30);
   pushMatrix();
   translate(180,ypos + 400 , 0);
   rotateZ(PI);
@@ -156,6 +160,7 @@ void draw()
   
   if (gameover)
   {
+    textFont(font, 30);
     pushMatrix();
     translate(120, ypos+400, 80);
     rotateZ(PI);
