@@ -9,12 +9,13 @@ color[] palette; // tile colours
 float xp, yp; // x and y positions
 int score;
 int lives;
+float combo = 1;
 boolean gameover = false;
 boolean showFlash = false;
 int ForFrames = 10;
 int flashCounter;
 
-void setup
+void setup()
 {
   size (512, 512, P3D);
   reset();
@@ -22,6 +23,9 @@ void setup
   {
     color(0), //black - avoid
     color(255), //white - normal tile
+    color(255, 255, 0), // yellow - score, adds to combo
+    color(0, 255, 255), // cyan - double bounce
+    color(255, 0, 0) // red - makes ball roll on the ground
   };
 }
 
@@ -49,13 +53,13 @@ void reset()
   frameCount = 0;
 }
       
-}
 
 void mouseClicked()
 {
   if (gameover) reset();
+}
 
-void draw
+void draw()
 {
   int ypos = (frameCount % 20000);
   
@@ -90,13 +94,13 @@ void draw
   
   for (int col = 0; col < 6; col ++)
   {
-    int x =-- 60 + (20 * col);
+    int x =- 60 + (20 * col);
     for (int row = 0; row < 1000; row ++)
     {
       int y = 20 * row;
       if ( y > ypos && y < ypos + 500 && tiles[row][col] > 0)
       {
-        fill (palette[tiles][row][col]], 255 - ((y -ypos) / 2));
+        fill (palette[tiles[row][col]], 255 - ((y -ypos) / 2));
         rect (x, y, 20, 20);
       }
     }
@@ -123,7 +127,7 @@ void draw
   // Draw score and combo
   
   pushMatrix();
-  translate180,ypos + 400 , 0);
+  translate(180,ypos + 400 , 0);
   rotateZ(PI);
   rotateX(PI * 3 / 2.2);
   text("SCORE", 0, - 20);
@@ -139,7 +143,7 @@ void draw
   pushMatrix();
   translate(-120, ypos + 400, 0);
   rotateZ(PI);
-  rotateX((PI * 3 / 2.2);
+  rotateX((PI * 3 / 2.2));
   text("LIVES", 0, - 20);
   text(lives+"", 0, 0);
   popMatrix();
@@ -174,7 +178,7 @@ void groundCheck(float xx, float yy)
   int col = (int)((xx + 60) / 20);
   
   int tiletype = 0;
-  if (col < 0 || col > = 6)
+  if (col < 0 || col >= 6)
   {
     tiletype = 0;
   }
@@ -182,7 +186,7 @@ void groundCheck(float xx, float yy)
   else
   {
     tiletype = tiles[row][col];
-    if (!gotbonus[row][col]))
+    if (!(gotbonus[row][col]))
     {
       gotbonus[row][col]=true; // Don't count more than once
       switch (tiletype)
@@ -192,7 +196,7 @@ void groundCheck(float xx, float yy)
           lives--;
           if (lives==0) gameover = true;
           combo = 1.0; // Combo breaker
-          showFalsh = true;
+          showFlash = true;
           flashCounter = ForFrames;
           break;
         case 1:
@@ -218,7 +222,7 @@ void groundCheck(float xx, float yy)
           BounceH = 0;
           combo = 1;
           break;
-         default;
+         default:
           break;
       }
     }
@@ -226,5 +230,5 @@ void groundCheck(float xx, float yy)
 }  
   
   
-  
-}
+
+
