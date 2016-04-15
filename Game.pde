@@ -20,7 +20,7 @@ void setup()
 {
   size (512, 512, P3D);
   font = loadFont("SegoeScript-Bold-48.vlw");
-  textFont(font, 10);
+  textFont(font, 30);
   reset();
   palette = new color[]
   {
@@ -129,7 +129,7 @@ void draw()
   
   // Draw score and combo
   
-  textFont(font, 10);
+  textFont(font, 30);
   pushMatrix();
   translate(180,ypos + 400 , 0);
   rotateZ(PI);
@@ -138,7 +138,7 @@ void draw()
   text(score+ "",0 , 0);
   if (combo > 1)
   {
-    text((int)combo+ "X COMBO", 0, - 40);
+    text((int)combo+ "X COMBO", 0, - 30);
   }
   popMatrix();
   
@@ -160,7 +160,7 @@ void draw()
   
   if (gameover)
   {
-    textFont(font, 10);
+    textFont(font, 30);
     pushMatrix();
     translate(120, ypos+400, 80);
     rotateZ(PI);
