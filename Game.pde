@@ -5,6 +5,7 @@ import ddf.minim.analysis.*;
 import ddf.minim.ugens.*;
 import ddf.minim.effects.*;
 Minim minim;
+AudioPlayer song;
 
 float BallR = 7; // Ball radius
 float BounceH = 75; // Bounce height
@@ -28,6 +29,9 @@ PFont font;
 void setup()
 {
   size (512, 512, P3D);
+  minim = new Minim(this);
+  song = minim.loadFile("Audacity.wav");
+  song.loop();
   font = loadFont("SegoeScript-Bold-48.vlw");
   textFont(font, 30);
   reset();
@@ -103,7 +107,8 @@ void draw()
  
   else
   {
-    background(random(150),random(150));
+    frameRate(60);
+    background(random(0),random(100),random(100));
   }
 
   // Ball position
