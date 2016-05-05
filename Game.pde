@@ -59,7 +59,7 @@ float b = 0;
 void draw()
 {
   
-  if (millis() < 5000)
+  if (millis() < 6000)
   {
     textFont(font);
     textSize(48);
@@ -167,7 +167,7 @@ void draw()
   text(lives+"",0,0);
   popMatrix();
    
-  // on the ground? if so, check for 'collisions'
+  //check for collisions
   if (zz <= BallR && !gameover) groundCheck(xx,yy);
    
   // gameover
@@ -179,6 +179,9 @@ void draw()
     rotateZ(PI);
     rotateX((PI*3.0/2.2));
     text("GAME OVER",0,0);
+    textSize(30);
+    fill(255,0,0);
+    text("Click to restart",0,-40);
     popMatrix();
   }
   
