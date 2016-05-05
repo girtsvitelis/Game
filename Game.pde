@@ -41,38 +41,11 @@ void setup()
     color(255, 0, 0), // red - makes ball roll on the ground
     //color(169, 9, 238) // indigo - ball bounces twice
   };
-  font = loadFont("Tahoma-Bold-48.vlw");
+  font = loadFont("CourierNewPS-BoldMT-48.vlw");
 
   a = mouseX;
   b = mouseY;
 }
-
-void reset()
-{
-  //reset game
-
-  tiles = new int[1000][6];
-  gotbonus = new boolean[1000][6];
-  for (int row = 0; row < 1000; row ++)
-  {
-    for (int col = 0; col < 6; col ++)
-    {
-      tiles[row][col] = 1;
-      if (row > 20 && random (0, 10)>8) tiles[row][col] = 0;
-      if (row > 30 && random (0, 100)>95) tiles[row][col] = 2;
-      if (row > 30 && random (0, 100)>98) tiles[row][col] = 3;
-      if (row > 60 && random (0, 100)>99) tiles[row][col] = 4;
-      //if (row > 60 && random (0, 100)>99) tiles[row][col] = 5;
-    }
-  }
-
-  score = 0;
-  lives = 5;
-  combo = 1;
-  gameover = false;
-  frameCount = 0;
-}
-
 
 void mouseClicked()
 {
@@ -199,7 +172,7 @@ void draw()
     fill(random(255), random(150), random(150));
     text("Mouse to move the ball", 20, 200);
     text("Avoid black holes", 20, 230);
-    text("Yellow - combo", 20, 260);
+    text("Green - combo", 20, 260);
     text("Red - rolling", 20, 290);
     text("Blue - high bounce", 20, 320);
   }
@@ -266,6 +239,34 @@ void groundCheck(float xx, float yy)
     }
   }
 }  
+
+void reset()
+{
+  //reset game
+
+  tiles = new int[1000][6];
+  gotbonus = new boolean[1000][6];
+  for (int row = 0; row < 1000; row ++)
+  {
+    for (int col = 0; col < 6; col ++)
+    {
+      tiles[row][col] = 1;
+      if (row > 20 && random (0, 10)>8) tiles[row][col] = 0;
+      if (row > 30 && random (0, 100)>95) tiles[row][col] = 2;
+      if (row > 30 && random (0, 100)>98) tiles[row][col] = 3;
+      if (row > 60 && random (0, 100)>99) tiles[row][col] = 4;
+      //if (row > 60 && random (0, 100)>99) tiles[row][col] = 5;
+    }
+  }
+
+  score = 0;
+  lives = 5;
+  combo = 1;
+  gameover = false;
+  frameCount = 0;
+}
+
+
 
 
 
