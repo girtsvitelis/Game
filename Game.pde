@@ -55,6 +55,14 @@ void mouseClicked()
 float a = 0;
 float b = 0;
 
+void keyPressed()
+{
+  final int k = keyCode;
+
+  if (k == ' ')
+    if (looping)  noLoop();
+    else          loop();
+}
 
 void draw()
 {
@@ -68,10 +76,12 @@ void draw()
     textSize(30);
     fill(random(255), random(150), random(150));
     text("Mouse to move the ball", 20, 200);
-    text("Avoid black holes", 20, 230);
-    text("Green - combo", 20, 260);
-    text("Red - rolling", 20, 290);
-    text("Blue - high bounce", 20, 320);
+    text("left,right,forward,backward", 20, 230);
+    text("Avoid black holes", 20, 260);
+    text("Green - combo", 20, 290);
+    text("Red - rolling", 20, 320);
+    text("Blue - high bounce", 20, 350);
+    text("Space - Pause", 20, 380);
   }
   else
   {
