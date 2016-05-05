@@ -41,7 +41,7 @@ void setup()
     color(255, 0, 0), // red - makes ball roll on the ground
     //color(169, 9, 238) // indigo - ball bounces twice
   };
-  font = loadFont("CourierNewPS-BoldMT-48.vlw");
+  font = loadFont("CourierNewPSMT-48.vlw");
 
   a = mouseX;
   b = mouseY;
@@ -55,8 +55,26 @@ void mouseClicked()
 float a = 0;
 float b = 0;
 
+
 void draw()
 {
+  
+  if (millis() < 5000)
+  {
+    textFont(font);
+    textSize(48);
+    fill(random(255), random(150), random(150));
+    text("Tile Bounce", 65, 150);
+    textSize(30);
+    fill(random(255), random(150), random(150));
+    text("Mouse to move the ball", 20, 200);
+    text("Avoid black holes", 20, 230);
+    text("Green - combo", 20, 260);
+    text("Red - rolling", 20, 290);
+    text("Blue - high bounce", 20, 320);
+  }
+  else
+  {
   int ypos = (frameCount % 20000);
   
   camera (0, ypos, heightH, 0, (ypos + 400), 0, 0, -1, 0);
@@ -105,8 +123,8 @@ void draw()
       }
     }
   }
-
-  fill (127);
+   
+   fill (127);
 
   // Draw ball and shadow
 
@@ -127,7 +145,8 @@ void draw()
   
   // draw score & combo multiplier
    
-  //textFont(font,28.0);
+  textFont(font);
+  textSize(28);
   pushMatrix();
   translate(180,ypos+400,0);
   rotateZ(PI);
@@ -151,9 +170,10 @@ void draw()
   // on the ground? if so, check for 'collisions'
   if (zz <= BallR && !gameover) groundCheck(xx,yy);
    
-  // gameover?
-  if (gameover) {
-    //textFont(font,48.0);
+  // gameover
+  if (gameover)
+  {
+    textFont(font);
     pushMatrix();
     translate(120,ypos+400,80);
     rotateZ(PI);
@@ -162,19 +182,6 @@ void draw()
     popMatrix();
   }
   
-  if (millis() < 5000)
-  {
-    //textFont(font, 48);
-    textSize(48);
-    fill(random(255), random(150), random(150));
-    text("Tile Bounce", 65, 150);
-    textSize(30);
-    fill(random(255), random(150), random(150));
-    text("Mouse to move the ball", 20, 200);
-    text("Avoid black holes", 20, 230);
-    text("Green - combo", 20, 260);
-    text("Red - rolling", 20, 290);
-    text("Blue - high bounce", 20, 320);
   }
 
 }
@@ -265,8 +272,3 @@ void reset()
   gameover = false;
   frameCount = 0;
 }
-
-
-
-
-
