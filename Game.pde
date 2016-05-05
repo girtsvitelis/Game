@@ -82,6 +82,7 @@ void draw()
     text("Red - rolling", 20, 320);
     text("Blue - high bounce", 20, 350);
     text("Space - Pause", 20, 380);
+    text("by Girts Vitelis", 20, 500);
   }
   else
   {
