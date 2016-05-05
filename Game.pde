@@ -25,15 +25,13 @@ int ForFrames = 60;
 int flashCounter;
 PFont font;
 
-
 void setup()
 {
   size (512, 512, P3D);
   minim = new Minim(this);
   song = minim.loadFile("Audacity.wav");
   song.loop();
-  font = loadFont("SegoeScript-Bold-48.vlw");
-  textFont(font, 30);
+  font = loadFont("Tahoma-Bold-48.vlw");
   reset();
   palette = new color[]
   {
@@ -42,7 +40,7 @@ void setup()
     color(0, 255, 0), // green - score, adds to combo
     color(14, 246, 246), // blue - double bounce
     color(255, 0, 0), // red - makes ball roll on the ground
-    color(169, 9, 238) // indigo - ball bounces twice
+    //color(169, 9, 238) // indigo - ball bounces twice
   };
 
   a = mouseX;
@@ -86,14 +84,14 @@ float b = 0;
 
 void draw()
 {
-  
   int ypos = (frameCount % 20000);
-
+  
   camera (0, ypos, heightH, 0, (ypos + 400), 0, 0, -1, 0);
   //ambientLight (210, 220, 200);
   //directionalLight (204, 204, 204, -.7, 1, 1.2);
-  //lightFalloff (1, 0, 0); 
-
+  //lightFalloff (1, 0, 0);
+   
+  // Red flash when a life is lost 
   if (showFlash)
   {
     float flashamt = float(flashCounter) / float(ForFrames);
@@ -142,6 +140,7 @@ void draw()
   if (!gameover)
   {
     // Ball shadow
+    fill(0);
     ellipse(xx, yy, 20, 20);
     // Draw player 
     pushMatrix();
@@ -152,31 +151,21 @@ void draw()
     sphere(BallR);
     popMatrix();
   }
+  
+  // Draw score,lives and combo
 
-  // Draw score and combo
-
+  smooth();
   textFont(font, 30);
-  pushMatrix();
-  translate(180, ypos + 400, 0);
-  rotateZ(PI);
-  rotateX(PI * 3 / 2.2);
-  text("SCORE", 0, - 20);
-  text(score+ "", 0, 0);
+  textSize(30);
+  fill(255);
+  text("SCORE", 50, 50);
+  text(score+ "",50, 80);
+  text("LIVES", 450, 50);
+  text(lives+"", 450, 80);
   if (combo > 1)
   {
-    text((int)combo+ "X COMBO", 0, - 40);
+    text((int)combo+ "X COMBO", 50, 100);
   }
-  popMatrix();
-
-  // Draw lives
-
-  pushMatrix();
-  translate(-120, ypos + 400, 0);
-  rotateZ(PI);
-  rotateX((PI * 3 / 2.2));
-  text("LIVES", 0, - 20);
-  text(lives+"", 0, 0);
-  popMatrix();
 
   // Check for collisions
 
@@ -186,20 +175,15 @@ void draw()
 
   if (gameover)
   {
-    textFont(font, 30);
-    pushMatrix();
-    translate(120, ypos+400, 80);
-    rotateZ(PI);
-    rotateX((PI * 3 / 2.2));
-    text("GAME OVER", 0, 0);
-    popMatrix();
+    smooth();
+    textFont(font, 48);
+    textSize(30);
+    fill(255);
+    text("GAME OVER", 200, 250);
+    text("Click the mouse to play again", 200, 300);
   }
 
 }
-
-//float Bounce1 = 20;
-//float Bounce2 = 30;
-
 
 void groundCheck(float xx, float yy)
 {
@@ -255,16 +239,6 @@ void groundCheck(float xx, float yy)
         BounceH = 0;
         combo = 1;
         break;
-        /*  
-         case 5:
-         // Double bounce
-         Bounce1;
-         Bounce2;
-         score += 30 * combo;
-         tiles[row][col] = 1;
-         if (BounceH > 0) combo *= 2;
-         break;
-         */
       default:
         break;
       }
