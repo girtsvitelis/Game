@@ -152,40 +152,46 @@ void draw()
     popMatrix();
   }
   
-  // Draw score,lives and combo
-
-  smooth();
-  textFont(font, 48);
-  textSize(48);
-  fill(255);
-  text("SCORE", 50, 50);
-  text(score+ "",50, 80);
-  text("LIVES", 450, 50);
-  text(lives+"", 450, 80);
-  if (combo > 1)
-  {
-    text((int)combo+ "X COMBO", 50, 100);
+  // draw score & combo multiplier
+   
+  //textFont(font,28.0);
+  pushMatrix();
+  translate(180,ypos+400,0);
+  rotateZ(PI);
+  rotateX(PI*3.0/2.2);
+  text("SCORE",0,-20);
+  text(score+"",0,0);
+  if (combo>1.0) {
+    text((int)combo+"X COMBO",0,-40);
   }
-
-  // Check for collisions
-
-  if (zz <= BallR && !gameover) groundCheck(xx, yy);
-
-  // Gameover
-
-  if (gameover)
-  {
-    smooth();
-    textFont(font, 48);
-    textSize(48);
-    fill(255);
-    text("GAME OVER", 200, 250);
-    text("Click the mouse to play again", 200, 300);
+  popMatrix();
+   
+  // draw lives
+  pushMatrix();
+  translate(-120,ypos+400,0);
+  rotateZ(PI);
+  rotateX((PI*3.0/2.2));
+  text("LIVES",0,-20);
+  text(lives+"",0,0);
+  popMatrix();
+   
+  // on the ground? if so, check for 'collisions'
+  if (zz <= BallR && !gameover) groundCheck(xx,yy);
+   
+  // gameover?
+  if (gameover) {
+    //textFont(font,48.0);
+    pushMatrix();
+    translate(120,ypos+400,80);
+    rotateZ(PI);
+    rotateX((PI*3.0/2.2));
+    text("GAME OVER",0,0);
+    popMatrix();
   }
   
   if (millis() < 5000)
   {
-    textFont(font, 48);
+    //textFont(font, 48);
     textSize(48);
     fill(random(255), random(150), random(150));
     text("Tile Bounce", 65, 150);
