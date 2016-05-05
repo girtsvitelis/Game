@@ -31,7 +31,6 @@ void setup()
   minim = new Minim(this);
   song = minim.loadFile("Audacity.wav");
   song.loop();
-  font = loadFont("Tahoma-Bold-48.vlw");
   reset();
   palette = new color[]
   {
@@ -42,6 +41,7 @@ void setup()
     color(255, 0, 0), // red - makes ball roll on the ground
     //color(169, 9, 238) // indigo - ball bounces twice
   };
+  font = loadFont("Tahoma-Bold-48.vlw");
 
   a = mouseX;
   b = mouseY;
@@ -155,8 +155,8 @@ void draw()
   // Draw score,lives and combo
 
   smooth();
-  textFont(font, 30);
-  textSize(30);
+  textFont(font, 48);
+  textSize(48);
   fill(255);
   text("SCORE", 50, 50);
   text(score+ "",50, 80);
@@ -177,10 +177,25 @@ void draw()
   {
     smooth();
     textFont(font, 48);
-    textSize(30);
+    textSize(48);
     fill(255);
     text("GAME OVER", 200, 250);
     text("Click the mouse to play again", 200, 300);
+  }
+  
+  if (millis() < 5000)
+  {
+    textFont(font, 48);
+    textSize(48);
+    fill(random(255), random(150), random(150));
+    text("Tile Bounce", 65, 150);
+    textSize(30);
+    fill(random(255), random(150), random(150));
+    text("Mouse to move the ball", 20, 200);
+    text("Avoid black holes", 20, 230);
+    text("Yellow - combo", 20, 260);
+    text("Red - rolling", 20, 290);
+    text("Blue - high bounce", 20, 320);
   }
 
 }
