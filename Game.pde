@@ -1,3 +1,11 @@
+import ddf.minim.spi.*;
+import ddf.minim.signals.*;
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.ugens.*;
+import ddf.minim.effects.*;
+Minim minim;
+
 float BallR = 7; // Ball radius
 float BounceH = 75; // Bounce height
 float BounceS = 20; // Bounce stride
@@ -12,9 +20,10 @@ int lives;
 float combo = 1;
 boolean gameover = false;
 boolean showFlash = false;
-int ForFrames = 10;
+int ForFrames = 60;
 int flashCounter;
 PFont font;
+
 
 void setup()
 {
@@ -28,14 +37,18 @@ void setup()
     color(255), //white - normal tile
     color(0, 255, 0), // green - score, adds to combo
     color(14, 246, 246), // blue - double bounce
-    color(255, 0, 0) // red - makes ball roll on the ground
+    color(255, 0, 0), // red - makes ball roll on the ground
+    color(169, 9, 238) // indigo - ball bounces twice
   };
+
+  a = mouseX;
+  b = mouseY;
 }
 
 void reset()
 {
   //reset game
-  
+
   tiles = new int[1000][6];
   gotbonus = new boolean[1000][6];
   for (int row = 0; row < 1000; row ++)
@@ -47,31 +60,36 @@ void reset()
       if (row > 30 && random (0, 100)>95) tiles[row][col] = 2;
       if (row > 30 && random (0, 100)>98) tiles[row][col] = 3;
       if (row > 60 && random (0, 100)>99) tiles[row][col] = 4;
+      //if (row > 60 && random (0, 100)>99) tiles[row][col] = 5;
     }
   }
-  
+
   score = 0;
   lives = 5;
   combo = 1;
   gameover = false;
   frameCount = 0;
 }
-      
+
 
 void mouseClicked()
 {
   if (gameover) reset();
 }
 
+float a = 0;
+float b = 0;
+
 void draw()
 {
+  
   int ypos = (frameCount % 20000);
-  
-  camera (0, ypos, heightH, 0, (ypos + 400), 0, 0, -1,0);
-  ambientLight (210, 220, 200);
-  directionalLight (204, 204, 204, -.7, 1, 1.2);
-  lightFalloff (1, 0, 0); 
-  
+
+  camera (0, ypos, heightH, 0, (ypos + 400), 0, 0, -1, 0);
+  //ambientLight (210, 220, 200);
+  //directionalLight (204, 204, 204, -.7, 1, 1.2);
+  //lightFalloff (1, 0, 0); 
+
   if (showFlash)
   {
     float flashamt = float(flashCounter) / float(ForFrames);
@@ -82,19 +100,22 @@ void draw()
       showFlash = false;
     }
   }
+ 
   else
   {
-    background(0);
+    background(random(150),random(150));
   }
-  
+
   // Ball position
-  float xx = 60 - mouseX / 4.25; //left-right
+  a = lerp(a, mouseX, 0.1);
+  b = lerp(b, mouseY, 0.1);
+  float xx = 60 - a / 4.25; //left-right
   float yy = ypos + 60 + ((512 - mouseY) / 5); //front-back
   float zz = BallR / 2 + (BounceH * (float)Math.abs(Math.sin(frameCount/BounceS))); // up-down
-  
-  
+
+
   // Draw tiles
-  
+
   for (int col = 0; col < 6; col ++)
   {
     int x =- 60 + (20 * col);
@@ -108,11 +129,11 @@ void draw()
       }
     }
   }
-  
+
   fill (127);
-  
+
   // Draw ball and shadow
-  
+
   if (!gameover)
   {
     // Ball shadow
@@ -126,24 +147,24 @@ void draw()
     sphere(BallR);
     popMatrix();
   }
-  
+
   // Draw score and combo
-  
+
   textFont(font, 30);
   pushMatrix();
-  translate(180,ypos + 400 , 0);
+  translate(180, ypos + 400, 0);
   rotateZ(PI);
   rotateX(PI * 3 / 2.2);
   text("SCORE", 0, - 20);
-  text(score+ "",0 , 0);
+  text(score+ "", 0, 0);
   if (combo > 1)
   {
-    text((int)combo+ "X COMBO", 0, - 30);
+    text((int)combo+ "X COMBO", 0, - 40);
   }
   popMatrix();
-  
+
   // Draw lives
-  
+
   pushMatrix();
   translate(-120, ypos + 400, 0);
   rotateZ(PI);
@@ -151,13 +172,13 @@ void draw()
   text("LIVES", 0, - 20);
   text(lives+"", 0, 0);
   popMatrix();
-  
+
   // Check for collisions
-  
-  if (zz <= BallR && !gameover) groundCheck(xx,yy);
-  
+
+  if (zz <= BallR && !gameover) groundCheck(xx, yy);
+
   // Gameover
-  
+
   if (gameover)
   {
     textFont(font, 30);
@@ -168,27 +189,29 @@ void draw()
     text("GAME OVER", 0, 0);
     popMatrix();
   }
-  
+
 }
+
+//float Bounce1 = 20;
+//float Bounce2 = 30;
+
 
 void groundCheck(float xx, float yy)
 {
   // Called when ball is on ground
-  
+
   if (BounceH > 0) BounceH = 70; // Reset bounce if not rolling
-  
+
   // Tile position underneath
-  
+
   int row = (int)(yy / 20);
   int col = (int)((xx + 60) / 20);
-  
+
   int tiletype = 0;
   if (col < 0 || col >= 6)
   {
     tiletype = 0;
-  }
-  
-  else
+  } else
   {
     tiletype = tiles[row][col];
     if (!(gotbonus[row][col]))
@@ -196,44 +219,53 @@ void groundCheck(float xx, float yy)
       gotbonus[row][col]=true; // Don't count more than once
       switch (tiletype)
       {
-        case 0:
-          // Fell down a hole
-          lives--;
-          if (lives==0) gameover = true;
-          combo = 1.0; // Combo breaker
-          showFlash = true;
-          flashCounter = ForFrames;
-          break;
-        case 1:
-          // Hit normal tile
-          score += 10;
-          combo = 1;
-          break;
-        case 2:
-          // Hit gold tile
-          score += 50 * combo;
-          tiles[row][col] = 1;
-          if (BounceH > 0) combo *= 2;
-          break;
-        case 3:
-          // Double bounce
-          BounceH = 120;
-          score += 50*combo;
-          tiles[row][col] = 1;
-          if (BounceH > 0) combo *= 2;
-          break;
-        case 4:
-          // Set to roll
-          BounceH = 0;
-          combo = 1;
-          break;
-         default:
-          break;
+      case 0:
+        // Fell down a hole
+        lives--;
+        if (lives==0) gameover = true;
+        combo = 1.0; // Combo breaker
+        showFlash = true;
+        flashCounter = ForFrames;
+        break;
+      case 1:
+        // Hit normal tile
+        score += 10;
+        combo = 1;
+        break;
+      case 2:
+        // Hit gold tile
+        score += 50 * combo;
+        tiles[row][col] = 1;
+        if (BounceH > 0) combo *= 2;
+        break;
+      case 3:
+        // High bounce
+        BounceH = 120;
+        score += 50 * combo;
+        tiles[row][col] = 1;
+        if (BounceH > 0) combo *= 2;
+        break;
+      case 4:
+        // Set to roll
+        BounceH = 0;
+        combo = 1;
+        break;
+        /*  
+         case 5:
+         // Double bounce
+         Bounce1;
+         Bounce2;
+         score += 30 * combo;
+         tiles[row][col] = 1;
+         if (BounceH > 0) combo *= 2;
+         break;
+         */
+      default:
+        break;
       }
     }
   }
 }  
-  
-  
+
 
 
